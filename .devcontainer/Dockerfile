@@ -36,18 +36,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
     xvfb x11vnc xdotool wget tar supervisor net-tools lxde xterm \
     && apt-get clean -y && rm -rf /var/lib/apt/lists
 
-
-# Install Rust
-# ENV RUST_VERSION stable
-# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERSION}
-# ENV PATH $PATH:/home/${USERNAME}/.cargo/bin
-# RUN rustup install stable
-# RUN rustup install nightly
-# RUN rustup component add rust-analysis rust-src rustfmt clippy
-# RUN cargo install cargo-watch
-# RUN cargo install cargo-check
-
-
 # Install noVNC
 RUN mkdir -p /usr/local/novnc \
  && curl -k -L -o /tmp/novnc.zip https://github.com/novnc/noVNC/archive/v${NOVNC_VERSION}.zip \
@@ -63,6 +51,17 @@ RUN cd /usr/bin && sudo mv lxpolkit lxpolkit.bak
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 USER ${USERNAME}
+
+# Install Rust
+# ENV RUST_VERSION stable
+# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERSION}
+# ENV PATH $PATH:/home/${USERNAME}/.cargo/bin
+# RUN rustup install stable
+# RUN rustup install nightly
+# RUN rustup component add rust-analysis rust-src rustfmt clippy
+# RUN cargo install cargo-watch
+# RUN cargo install cargo-check
+
 RUN mkdir -p /home/${USERNAME}/workspace
 WORKDIR /home/${USERNAME}/workspace
 
